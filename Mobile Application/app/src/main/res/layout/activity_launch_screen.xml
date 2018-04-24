@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_grey"
+    android:background="@color/black"
     tools:context="group12.sparc_moblieapp.LaunchScreenActivity">
 
 <ImageView
@@ -26,13 +26,6 @@ android:orientation="vertical">
     android:textColor="@android:color/primary_text_dark"
     android:textStyle="bold" />
 
-<TextView
-    style="@style/TextAppearance.AppCompat.Title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:gravity="center"
-    android:textColor="@android:color/secondary_text_dark" />
 </LinearLayout>
 
 

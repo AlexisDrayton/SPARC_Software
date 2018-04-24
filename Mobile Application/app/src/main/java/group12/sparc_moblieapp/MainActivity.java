@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        //startActivity(intent);
     }
 
     @Override
@@ -34,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.user_settings) {
+            return true;
+        }
+        if (id == R.id.device_settings) {
             return true;
         }
 
