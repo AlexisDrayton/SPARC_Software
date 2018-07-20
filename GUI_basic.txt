@@ -1,0 +1,81 @@
+#include <stdio.h>
+#define ROWS 5
+#define COLS 5
+void arrayPrint(int **Array);
+void arrayPrint_Borders();
+int myArray[ROWS][COLS];
+main() {
+	int i, j;
+
+	myArray[1][2] = 55;
+	myArray[2][2] = 254;
+	myArray[1][4] = 3;
+
+	/*
+	for (j = 0; j < COLS; j++)
+	{
+		for (i = 0; i < ROWS; i++)
+		{
+			myArray[i][j] = 0;
+		}
+	}
+	*/
+	arrayPrint(myArray);
+
+	system("pause");
+}
+void arrayPrint()
+{
+	int i, j, temp, sPlace, count2;
+
+	arrayPrint_Borders();
+	for (j = 0; j < COLS; j++)
+	{
+		for (i = 0; i < ROWS; i++)
+		{
+			
+			printf("|");
+			
+			temp = myArray[i][j];
+			sPlace = 0;
+
+			while (temp / 10 > 0)
+			{
+				sPlace++;
+				temp = temp / 10;
+			}
+
+			if (sPlace == 0)
+			{
+				printf(" %d ", myArray[i][j]);
+				continue;
+			}
+
+			for (count2 = sPlace; count2 < 2; count2++)
+			{
+				printf(" ");
+			}
+
+			printf("%d", myArray[i][j]);
+
+			for (count2 = sPlace + 1; count2 < 2; count2++)
+			{
+				printf(" ");
+			}
+
+		}
+		printf("|\n");
+		arrayPrint_Borders();
+	}
+}
+void arrayPrint_Borders()
+{
+	int i;
+	printf("|");
+	for (i = 0; i < COLS; i++)
+	{
+		printf("___");
+		printf("|");
+	}
+	printf("\n");
+}
