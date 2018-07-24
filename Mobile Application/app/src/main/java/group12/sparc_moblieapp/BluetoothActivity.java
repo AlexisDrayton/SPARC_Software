@@ -25,12 +25,11 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity{
+public class BluetoothActivity extends AppCompatActivity {
 
     // GUI Components
     private TextView mBluetoothStatus;
@@ -47,10 +46,6 @@ public class MainActivity extends AppCompatActivity{
     private Button down;
     private Button left;
     private Button right;
-    private Button Schedule;
-    private Button Manual;
-    private int clickCount;
-    private boolean scheduleSent;
 
     private Handler mHandler; // Our main handler that will receive callback notifications
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
@@ -82,9 +77,6 @@ public class MainActivity extends AppCompatActivity{
         left = (Button) findViewById(R.id.left);
         right = (Button) findViewById(R.id.right);
 
-        Schedule = findViewById(R.id.schedule);
-        Manual = findViewById(R.id.manual);
-
         mBTArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
 
@@ -92,8 +84,7 @@ public class MainActivity extends AppCompatActivity{
         mDevicesListView.setAdapter(mBTArrayAdapter); // assign model to view
         mDevicesListView.setOnItemClickListener(mDeviceClickListener);
 
-        clickCount = 0;
-        scheduleSent = false;
+
 
 
         mHandler = new Handler(){
@@ -155,153 +146,11 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
 
-            Schedule.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    //Grab the schedule
-
-                    Bundle data = getIntent().getExtras();
-                    Schedule sch = (Schedule) data.getParcelable("schedule");
-
-                    String newDay = sch.getDay();
-                    String newTime = sch.getSTime();
-
-                    char[] schedule;
-                    schedule = new char[] {'U','0','0'};  //Default at Sunday at midnight;
-
-                    if(newDay.equals("Monday")){
-                        schedule[0] = 'M';
-                    }if(newDay.equals("Tuesday")){
-                        schedule[0] = 'T';
-                    }if(newDay.equals("Wednesday")){
-                        schedule[0] = 'W';
-                    }if(newDay.equals("Thursday")){
-                        schedule[0] = 'H';
-                    }if(newDay.equals("Friday")){
-                        schedule[0] = 'F';
-                    }if(newDay.equals("Saturday")){
-                        schedule[0] = 'S';
-                    }if(newDay.equals("Sunday")){
-                        schedule[0] = 'U';
-                    }
-
-                    if(newTime.equals("00")){
-                        schedule[1] = '0';
-                        schedule[2] = '0';
-                    }  if(newTime.equals("01")){
-                        schedule[1] = '0';
-                        schedule[2] = '0';
-                    }  if(newTime.equals("02")){
-                        schedule[1] = '0';
-                        schedule[2] = '2';
-                    }   if(newTime.equals("03")){
-                        schedule[1] = '0';
-                        schedule[2] = '3';
-                    }    if(newTime.equals("04")){
-                        schedule[1] = '0';
-                        schedule[2] = '4';
-                    }    if(newTime.equals("05")){
-                        schedule[1] = '0';
-                        schedule[2] = '5';
-                    }    if(newTime.equals("06")){
-                        schedule[1] = '0';
-                        schedule[2] = '6';
-                    }    if(newTime.equals("07")){
-                        schedule[1] = '0';
-                        schedule[2] = '7';
-                    }    if(newTime.equals("08")){
-                        schedule[1] = '0';
-                        schedule[2] = '8';
-                    }    if(newTime.equals("09")){
-                        schedule[1] = '0';
-                        schedule[2] = '9';
-                    }    if(newTime.equals("10")){
-                        schedule[1] = '1';
-                        schedule[2] = '0';
-                    }    if(newTime.equals("11")){
-                        schedule[1] = '1';
-                        schedule[2] = '1';
-                    }    if(newTime.equals("12")){
-                        schedule[1] = '1';
-                        schedule[2] = '2';
-                    }    if(newTime.equals("13")){
-                        schedule[1] = '1';
-                        schedule[2] = '3';
-                    }    if(newTime.equals("14")){
-                        schedule[1] = '1';
-                        schedule[2] = '4';
-                    }    if(newTime.equals("15")){
-                        schedule[1] = '1';
-                        schedule[2] = '5';
-                    }    if(newTime.equals("16")){
-                        schedule[1] = '1';
-                        schedule[2] = '6';
-                    }    if(newTime.equals("17")){
-                        schedule[1] = '1';
-                        schedule[2] = '7';
-                    }    if(newTime.equals("18")){
-                        schedule[1] = '1';
-                        schedule[2] = '8';
-                    }    if(newTime.equals("19")){
-                        schedule[1] = '1';
-                        schedule[2] = '9';
-                    }    if(newTime.equals("20")){
-                        schedule[1] = '2';
-                        schedule[2] = '0';
-                    }    if(newTime.equals("21")){
-                        schedule[1] = '2';
-                        schedule[2] = '1';
-                    }    if(newTime.equals("22")){
-                        schedule[1] = '2';
-                        schedule[2] = '2';
-                    }    if(newTime.equals("23")){
-                        schedule[1] = '2';
-                        schedule[2] = '3';
-                    }    if(newTime.equals("24")){
-                        schedule[1] = '2';
-                        schedule[2] = '4';
-                    }
-
-                    if(clickCount == 0){
-                        if(mConnectedThread != null) //First check to make sure thread created
-                            mConnectedThread.write("X");
-
-                    System.out.println("X");
-                    }
-
-                    if(clickCount == 1){
-                        if(mConnectedThread != null) //First check to make sure thread created
-                            mConnectedThread.write(new String(schedule));
-
-                        scheduleSent = true;
-                        System.out.println(new String(schedule));
-                    }
-
-                    clickCount++;
-
-                    if(scheduleSent){
-                        scheduleSent=false;
-                        clickCount = 0;
-                    }
-
-
-                }
-            });
-
 
             mScanBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     bluetoothOn(v);
-                }
-            });
-
-            Manual.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("Z");
-
                 }
             });
 
@@ -344,13 +193,9 @@ public class MainActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.user_settings) {
-            Intent launchNewIntent = new Intent(MainActivity.this,UserSettingsActivity.class);
-            startActivityForResult(launchNewIntent, 0);
             return true;
         }
         else if (id == R.id.schedule_settings) {
-            Intent launchNewIntent = new Intent(MainActivity.this,ScheduleActivity.class);
-            startActivityForResult(launchNewIntent, 0);
             return true;
         }
 
