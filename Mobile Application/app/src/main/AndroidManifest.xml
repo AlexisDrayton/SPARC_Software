@@ -41,6 +41,7 @@
             android:label="@string/SPARC_title"
             android:theme="@style/AppTheme.Main"></activity>
         <activity
+            android:name=".ScheduleActivity"
             android:label="@string/SPARC_title"
             android:theme="@style/AppTheme.Main"></activity>
         <activity
